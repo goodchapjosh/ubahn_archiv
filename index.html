@@ -73,13 +73,13 @@
     }
 
     /* ============================================================
-       TOP‑RIGHT NAVIGATION
+       TOP‑RIGHT NAVIGATION — now behind photos
        ============================================================ */
     .top-nav {
       position: fixed;
       top: 20px;
       right: 48px;
-      z-index: 100;
+      z-index: 0; /* behind photos (which are z-index: 2) */
       display: flex;
       gap: 24px;
     }
@@ -195,43 +195,62 @@
       height: auto;
     }
 
+    /* ============================================================
+       RESPONSIVE — photos go wide on mobile
+       ============================================================ */
     @media (max-width: 640px) {
       .site-title {
         height: 56px;
-        padding: 0 20px;
+        padding: 0 12px;
       }
       .site-title img {
         height: 22px;
       }
       main {
-        padding: 0 20px 120px;
+        padding: 0 8px 80px; /* much less side padding = wider photos */
+      }
+      .photo-row {
+        padding-left: 8px; /* minimal left push on mobile */
+        gap: 8px;
+        margin-bottom: 64px;
       }
       .photo-year {
-        flex: 0 0 60px;
+        flex: 0 0 40px;
+        font-size: 9px;
+      }
+      .photo {
+        max-width: 100%; /* allow photo to fill the screen */
       }
       .entrance-gif {
         max-width: 104%;
         max-height: 104vh;
       }
       .top-nav {
-        right: 20px;
+        right: 12px;
         gap: 16px;
       }
     }
 
     @media (max-width: 460px) {
       .photo-row {
-        gap: 10px;
-        margin-bottom: 64px;
+        padding-left: 4px;
+        gap: 6px;
+        margin-bottom: 48px;
       }
       .photo-year {
-        flex: 0 0 45px;
-        font-size: 9px;
+        flex: 0 0 32px;
+        font-size: 8px;
         padding-bottom: 1px;
+      }
+      .photo {
+        max-width: 100%;
       }
       .entrance-gif {
         max-width: 91%;
         max-height: 91vh;
+      }
+      main {
+        padding: 0 4px 60px;
       }
     }
 
@@ -256,6 +275,7 @@
     
     <div class="grain-overlay"></div>
 
+    <!-- Writing link — now behind photos (z-index: 0) -->
     <nav class="top-nav">
       <a href="writing.html">writing</a>
     </nav>
@@ -331,10 +351,8 @@
     const siteSound = document.getElementById('siteSound');
     let soundPlayed = false;
 
-    // Check for ?skip=true on page load
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('skip') === 'true') {
-      // Skip entrance and sound entirely
       document.getElementById('entrance').style.display = 'none';
       document.getElementById('mainSite').classList.add('visible');
       document.body.style.overflow = 'auto';
