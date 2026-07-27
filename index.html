@@ -139,6 +139,33 @@
     }
 
     /* ============================================================
+       VISITOR COUNTER
+       ============================================================ */
+    .visitor-counter-wrapper {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    .visitor-counter-wrapper.visible {
+      opacity: 1;
+    }
+
+    .visitor-counter-wrapper a {
+      font-family: 'Fira Sans', Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 1px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    /* ============================================================
        LAYOUT
        ============================================================ */
     main {
@@ -155,16 +182,16 @@
       height: 8px;
     }
 
-.photo-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 20px;
-  margin: 0 0 96px;
-  flex-direction: row;
-  position: relative;
-  z-index: 2;
-  padding-left: 100px;  /* change this number to whatever you want */
-}
+    .photo-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 20px;
+      margin: 0 0 96px;
+      flex-direction: row;
+      position: relative;
+      z-index: 2;
+      padding-left: 100px;
+    }
 
     .photo-year {
       flex: 0 0 80px;
@@ -261,7 +288,7 @@
     <!-- Grain overlay -->
     <div class="grain-overlay"></div>
 
-    <!-- Top‑right navigation: only writing (no photos) -->
+    <!-- Top‑right navigation: only writing -->
     <nav class="top-nav">
       <a href="writing.html">writing</a>
     </nav>
@@ -330,9 +357,16 @@
       </div>
 
     </main>
+
+    <!-- Visitor Counter - hidden initially, appears after 4 seconds -->
+    <div class="visitor-counter-wrapper" id="visitorCounter">
+      <a href='https://www.counters-free.net/'>Counters-Free</a>
+      <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=14fa98db40c7e5c5dfeed204a5a3a80ba5cdc25e'></script>
+      <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1606175/t/5"></script>
+    </div>
+
   </div>
-</div>  <a href='https://www.counters-free.net/'>Counters-Free</a> <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=14fa98db40c7e5c5dfeed204a5a3a80ba5cdc25e'></script>
-<script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1606175/t/5"></script> </div>
+
   <script>
     const siteSound = document.getElementById('siteSound');
     let soundPlayed = false;
@@ -344,6 +378,8 @@
       document.getElementById('entrance').style.display = 'none';
       document.getElementById('mainSite').classList.add('visible');
       document.body.style.overflow = 'auto';
+      // Show counter after 4 seconds
+      setTimeout(showCounter, 4000);
     }
 
     function handleEntranceClick(event) {
@@ -364,9 +400,18 @@
         entrance.style.display = 'none';
         mainSite.classList.add('visible');
         document.body.style.overflow = 'auto';
-        siteSound.pause();
+        siteSound.pause(1);
         siteSound.currentTime = 0;
+        // Show counter after 4 seconds from when main site appears
+        setTimeout(showCounter, 4000);
       }, 500);
+    }
+
+    function showCounter() {
+      const counter = document.getElementById('visitorCounter');
+      if (counter) {
+        counter.classList.add('visible');
+      }
     }
   </script>
 </body>
